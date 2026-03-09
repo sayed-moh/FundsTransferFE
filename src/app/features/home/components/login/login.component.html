@@ -1,0 +1,69 @@
+<p-card class="w-full h-full right-card">
+      <h1 class="mb-4 flex align-items-center justify-content-center">
+        {{ isNewUser ? 'SIGNUP' : 'LOGIN' }}
+      </h1>
+       <form #loginForm="ngForm" (ngSubmit)="loginOrSignUP(loginForm)">
+        <div class="flex flex-column justify-content-center align-items-center gap-4">
+          <div class="w-9">
+           <p-floatLabel variant="on" >
+              <input
+                pInputText
+                class="w-full"
+                id="username"
+                name="username"
+                [disabled]="loginLoading"
+                [(ngModel)]="username"
+                required
+                [invalid]="userModel.invalid && userModel.touched"
+
+                #userModel="ngModel" />
+              <label for="username">Username</label>
+            </p-floatLabel>
+            <small class="p-error block mt-2 ml-0" *ngIf="userModel.invalid && userModel.touched">
+              Username is required.
+            </small>
+          </div>
+          <div class="w-9">
+            <p-floatLabel variant="on" class="form-input">
+              <p-password
+                id="password"
+                name="password"
+                type="password"
+                styleClass="w-full"
+                inputStyleClass="w-full"
+                [toggleMask]="true"
+                [feedback]="isNewUser? true : false"
+                [disabled]="loginLoading"
+                [(ngModel)]="password"
+                required
+                  [invalid]="passwordModel.invalid && passwordModel.touched"
+                #passwordModel="ngModel" />
+              <label for="password">Password</label>
+            </p-floatLabel>
+            <small
+              class="p-error block mt-2 ml-0"
+              *ngIf="passwordModel.invalid && passwordModel.touched">
+              Password is required.
+            </small>
+          </div>
+          <p-button
+            [label]="isNewUser ? 'Submit' : 'Login'"
+            class="w-9 form-button"
+            [disabled]="loginForm.invalid? true : loginLoading"
+            [loading]="loginLoading"
+            type="submit" ></p-button>
+          
+        </div>
+        <div class="flex gap-2 align-items-center justify-content-center">
+            <p>{{ isNewUser ? 'Already have an account? ' : "Don't have an account? " }}</p>
+            <p-button
+              [label]="isNewUser ? 'Login' : 'Sign up'"
+              text="true"
+              [disabled]="loginLoading"
+              class="text-button"
+              (onClick)="toggleLogInOption(loginForm)" ></p-button>
+          </div>
+      </form>
+</p-card>
+
+<p-toast position="bottom-right" />

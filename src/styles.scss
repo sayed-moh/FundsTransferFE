@@ -1,1 +1,85 @@
+
 /* You can add global styles to this file, and also import other style files */
+body {
+  cursor: default;
+  height: 100%;
+  user-select: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+}
+
+.main-container {
+  background: radial-gradient(circle,rgba(2, 0, 36, 1) 0%, rgba(20, 121, 9, 1) 88%, rgba(26, 255, 0, 1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.main-container-body {
+  height: 50%;
+  min-height: 22rem;
+  min-width: 55rem;
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow:
+      0 0.125rem 0.063rem -0.063rem rgba(0, 0, 0, 0.2),
+      0 0.063rem 0.063rem 0 rgba(0, 0, 0, 0.14),
+      0 0.063rem 0.188rem 0 rgba(0, 0, 0, 0.12);
+}
+.left-card {
+  border-top-right-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important;
+}
+.right-card {
+  border-top-left-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
+}
+.icon-linear-color {
+  background-image: radial-gradient(circle,rgba(2, 0, 36, 1) 0%, rgba(20, 121, 9, 1) 88%, rgba(26, 255, 0, 1) 100%);
+  background-clip: text;
+  color: transparent;
+  font-size: 10rem !important;
+}  
+
+  .form-input {
+    .p-floatlabel {
+      .p-inputtext {
+        height: 3rem;
+        border-radius: 4px;
+      }
+    }
+  }
+  .p-floatlabel:has(.p-invalid) label {
+    color: #b00020 !important;
+  }
+  .p-inputtext.p-invalid,
+.p-inputtext.p-invalid:enabled:hover,
+.p-inputtext.p-invalid:focus {
+  border-color: #b00020 !important;
+}
+.p-error {
+  color: #b00020 !important;
+}
+  .form-button {
+    .p-button {
+      width: 100%;
+      height: 3rem;
+      background: radial-gradient(circle,rgba(2, 0, 36, 1) 0%, rgba(20, 121, 9, 1) 88%, rgba(26, 255, 0, 1) 100%);
+    }
+    .p-button:enabled:hover {
+      background: radial-gradient(circle,rgba(2, 0, 36, 1) 0%, rgba(20, 121, 9, 1) 70%, rgba(26, 255, 0, 1) 100%);
+    }
+  }
+  .text-button {
+    .p-button-text:not(:disabled):hover{
+      background: rgb(202, 252, 202) !important;
+      box-shadow: none;
+    }
+
+  }

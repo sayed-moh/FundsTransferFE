@@ -1,0 +1,71 @@
+<div class="main-container w-screen h-screen">
+  <div class="w-9 main-container-body funds-transfer-container flex justify-content-center align-items-center">
+    <p-card class="w-full h-full">
+      <div class="flex flex-column justify-content-center align-items-center">
+        <h1 class="text-center">Welcome, {{ username }} !</h1>
+           <div class="flex align-items-center justify-content-center mb-2 gap-2">
+              <h2 class="text-center color-green font-bold text-4xl mt-0">Current Balance: </h2>
+         <p-skeleton height="4rem" width="10rem"  *ngIf="accountLoading" />
+           <h2 class=" text-center text-4xl mt-0" *ngIf="!accountLoading">{{ balance}} $</h2>
+           </div>     
+        <form #fundsTransferForm="ngForm" (ngSubmit)="submit(fundsTransferForm)" class="w-6">
+          <div class="flex flex-column justify-content-center align-items-center gap-4">
+            <div class="w-full">
+              <p-floatLabel variant="on" class="form-input w-full">
+                <p-inputMask
+                  styleClass="w-full"
+                  mask="9999-9999-9999"
+                  id="recipientAccountNumber"
+                  name="recipientAccountNumber"
+                  [disabled]="submitLoading"
+                  [(ngModel)]="recipientAccountNumber"
+                  required
+                    [invalid]="recipientAccountNumberModel.invalid && recipientAccountNumberModel.touched"
+                  #recipientAccountNumberModel="ngModel" />
+                <label for="recipientAccountNumber">Recipient Account Number</label>
+              </p-floatLabel>
+              <small
+                class="p-error block mt-2 ml-0"
+                *ngIf="recipientAccountNumberModel.invalid && recipientAccountNumberModel.touched">
+                Recipient Account Number is required.
+              </small>
+            </div>
+            <div class="w-full">
+              <p-floatLabel variant="on" class="form-input">
+                <p-inputNumber
+                styleClass="w-full"
+                  mode="currency"
+                  currency="USD"
+                  locale="en-US"
+                  inputId="amount"
+                  [maxlength]="11"
+                  name="amount"
+                  [disabled]="submitLoading"
+                  [(ngModel)]="amount"
+                  (keypress)="isPositiveNumber($event)"
+                  [min]="0"
+                  required
+                  [invalid]="amountModel.invalid && amountModel.touched"
+                  #amountModel="ngModel" />
+                <label for="amount">Amount</label>
+              </p-floatLabel>
+              <small
+                class="p-error block mt-2 ml-0"
+                *ngIf="amountModel.invalid && amountModel.touched">
+                Amount is required.
+              </small>
+            </div>
+            <p-button
+              label="Submit Transfer"
+              class="w-full form-button mt-3"
+              [disabled]="fundsTransferForm.invalid"
+              [loading]="submitLoading"
+              type="submit" />
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<p-toast position="bottom-right" />
