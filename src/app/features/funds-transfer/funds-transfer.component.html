@@ -6,7 +6,7 @@
            <div class="flex align-items-center justify-content-center mb-2 gap-2">
               <h2 class="text-center color-green font-bold text-4xl mt-0">Current Balance: </h2>
          <p-skeleton height="4rem" width="10rem"  *ngIf="accountLoading" />
-           <h2 class=" text-center text-4xl mt-0" *ngIf="!accountLoading">{{ balance}} $</h2>
+           <h2 class=" text-center text-4xl mt-0" *ngIf="!accountLoading">{{ balance| number:'1.2-2'}} $</h2>
            </div>     
         <form #fundsTransferForm="ngForm" (ngSubmit)="submit(fundsTransferForm)" class="w-6">
           <div class="flex flex-column justify-content-center align-items-center gap-4">
