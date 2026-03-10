@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { TransferRequest } from './models/transfer-request.model';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TransferResponse } from './models/transfer-response.model';
 
 @Component({
   selector: 'app-funds-transfer',
@@ -17,20 +18,20 @@ import { Router } from '@angular/router';
 export class FundsTransferComponent implements OnInit {
   amount: number | undefined = undefined;
   recipientAccountNumber: number | undefined = undefined;
-  myAccountNumber: string | undefined = undefined;  
+  myAccountNumber: string | undefined = undefined;
   balance: string | undefined = undefined;
   submitLoading = false;
   accountLoading = true;
   username: string | undefined = undefined;
-  transferRequest:TransferRequest = {
+  transferRequest: TransferRequest = {
     accountNumberFrom: '',
     accountNumberTo: '',
     amount: 0
   };
   constructor(private authService: AuthService,
     private fundsTransferController: fundsTransferController,
-     private cdr:ChangeDetectorRef, 
-     private messageService: MessageService,
+    private cdr: ChangeDetectorRef,
+    private messageService: MessageService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -42,8 +43,8 @@ export class FundsTransferComponent implements OnInit {
     this.getUserAccount();
   }
 
-  getUserAccount(){
-const token = this.authService.getTokenValue();
+  getUserAccount() {
+    const token = this.authService.getTokenValue();
     if (token) {
       this.fundsTransferController.getUserAccount(token).subscribe({
         next: (response: Account) => {
@@ -58,40 +59,38 @@ const token = this.authService.getTokenValue();
           this.messageService.add({ severity: 'error', summary: 'Error fetching user account', detail: error.error, life: 3000 });
           this.cdr.detectChanges();
         }
-      })};
+      })
+    };
   }
-    submit(fundsTransferForm:NgForm) {
-      this.transferRequest.accountNumberFrom = this.myAccountNumber || ''; 
-      this.transferRequest.accountNumberTo = this.recipientAccountNumber?.toString() || '';
-      this.transferRequest.amount = this.amount || 0;
+  submit(fundsTransferForm: NgForm) {
+    this.transferRequest.accountNumberFrom = this.myAccountNumber || '';
+    this.transferRequest.accountNumberTo = this.recipientAccountNumber?.toString() || '';
+    this.transferRequest.amount = this.amount || 0;
     this.submitLoading = true;
     const token = this.authService.getTokenValue();
     if (token) {
-    this.fundsTransferController.transferFunds(token,this.transferRequest).subscribe({
-      next: (response: any) => {
-        this.submitLoading = false;
-        this.messageService.add({ severity: 'success', summary: 'Transfer Successful', detail: response, life: 3000 });
-        fundsTransferForm.resetForm();
-        this.getUserAccount();
-      },
-      error: (error: any) => {
-        console.error('Error transferring funds:', error);
-        this.submitLoading = false;
-        this.messageService.add({ severity: 'error', summary: 'Error transferring funds', detail: error.error, life: 3000 });
-      }
-    });
-  }
-    if (this.recipientAccountNumber && this.amount) {
-      console.log('send request');
+      this.fundsTransferController.transferFunds(token, this.transferRequest).subscribe({
+        next: (response: TransferResponse) => {
+          this.submitLoading = false;
+          this.messageService.add({ severity: 'success', summary: 'Transfer Successful', detail: "You transferred "+this.transferRequest.amount+" $ to "+response.userName+" with account number "+response.accountNumberTo , life: 3000 });
+          fundsTransferForm.resetForm();
+          this.balance = response.balance.toString();
+        },
+        error: (error: any) => {
+          console.error('Error transferring funds:', error);
+          this.submitLoading = false;
+          this.messageService.add({ severity: 'error', summary: 'Error transferring funds', detail: error.error, life: 3000 });
+        }
+      });
     }
   }
-    isPositiveNumber(event:any): boolean {
+  isPositiveNumber(event: any): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
 
-     if (charCode === '-') {
-    event.preventDefault();
-    return false;
-  }
+    if (charCode === '-') {
+      event.preventDefault();
+      return false;
+    }
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
       return false;
     }

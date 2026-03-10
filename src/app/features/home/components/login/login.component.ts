@@ -23,7 +23,6 @@ export class LoginComponent {
     this.loginLoading = true;
     if (this.username && this.password) {
       if (this.isNewUser) {
-        console.log('signup request');
         this.loginController.signUp({username: this.username, password: this.password}).subscribe({
           next: (response) => {
             this.loginUser(response, loginForm);
@@ -49,7 +48,6 @@ export class LoginComponent {
   loginUser(response: LoginResponse, loginForm: NgForm){
     this.authService.setAuth(response);
     this.loginLoading = false;
-    console.log('login successful');
     this.router.navigate(['/transfer']);
      loginForm.resetForm();
   }
